@@ -8,6 +8,7 @@ class Node {
 class Trie {
   constructor() {
     this.root = new Node();
+    this.count = 0;
 
     this.insert = this.insert.bind(this);
     this.search = this.search.bind(this);
@@ -27,6 +28,7 @@ class Trie {
       prevLetter = prevLetter.children[char];
     }
 
+    this.count += 1;
     return this;
   }
 
@@ -46,13 +48,27 @@ class Trie {
 
     return true;
   }
+
 }
 
 let trie = new Trie();
 
-trie.insert('bear');
-trie.insert('beet');
-trie.insert('battle');
+trie.insert('bears');
+trie.insert('bears');
+trie.insert('beets');
+trie.insert('battlestar');
 
-console.log(JSON.stringify(trie.root.children, null, 2));
-console.log(trie.search('beetl'));
+let words = 'plop, yes, what, does, this, actually, work'.split(', ')
+
+words.forEach((word) => {
+  trie.insert(word);
+})
+
+console.log(JSON.stringify(trie.root.children, null, 1));
+console.log(trie.count + ' words added');
+
+words.forEach((word) => {
+  console.log(word, ' found: ', trie.search(word));
+})
+
+console.log('banana found: ', trie.search('banana'));
